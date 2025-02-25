@@ -1,0 +1,14 @@
+[tasks.build-wasm]
+command = "cargo"
+args = ["build", "--target", "wasm32-unknown-unknown", "--release"]
+
+[tasks.gen-wasm-js]
+dependencies = ["build-wasm"]
+command = "wasm-bindgen"
+args = [
+  "--out-dir",
+  "./out",
+  "--target",
+  "web",
+  "target/wasm32-unknown-unknown/release/wasm_lib.wasm",
+]
