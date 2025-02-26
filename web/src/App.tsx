@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import reactLogo from './assets/react.svg';
 import './App.css';
-import wasm from 'dsl-parser';
+import wasm, { parserJson } from 'dsl-parser';
 
 function App() {
   const [count, setCount] = useState(0);
@@ -10,7 +10,8 @@ function App() {
     try {
       const res = await wasm();
       console.log('[debug] res', res);
-      res.greet();
+      const result = parserJson('[1,2,3]');
+      console.log(result); // 输出解析结果 [value(0, 7, [array(0, 7, [value(1, 2, [number(1, 2)]), value(3, 4, [number(3, 4)]), value(5, 6, [number(5, 6)])])])]
     } catch (error) {
       console.log('[debug] init occurred error', error);
     }

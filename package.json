@@ -4,14 +4,14 @@
   "version": "1.0.0",
   "packageManager": "pnpm@10.4.1",
   "scripts": {
-    "build": "cross-env NODE_ENV=production rspack build --prefix web",
+    "build": "cross-env NODE_ENV=production && npm run build --prefix web",
     "check": "biome check --write --prefix web",
-    "dev": "cross-env NODE_ENV=development rspack serve --prefix web",
     "format": "biome format --write --prefix web",
     "lint": "eslint . --prefix web",
-    "wasm:build": "cargo make build-wasm --cwd packages/wasm",
-    "wasm-bindgen:output": "cargo make gen-wasm-js --cwd packages/wasm",
-    "wasm-pack:build": "wasm-pack build packages/wasm-pack --out-name dsl-parser --out-dir ../dsl-parser  --release --target web"
+    "wasm:build": "cargo make build-wasm --cwd crates/wasm",
+    "wasm-bindgen:output": "cargo make gen-wasm-js --cwd crates/wasm",
+    "wasm-pack:build": "wasm-pack build crates/wasm-pack --out-name dsl-parser --out-dir ../../packages/dsl-parser  --release --target web",
+    "dev": "pnpm run wasm-pack:build && cross-env NODE_ENV=development && npm run dev --prefix web"
   },
   "dependencies": {
     "react": "^19.0.0",

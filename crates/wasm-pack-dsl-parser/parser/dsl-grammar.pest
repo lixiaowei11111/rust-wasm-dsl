@@ -1,0 +1,10 @@
+// parser.pest
+value = { 
+  string | number | boolean | null | array | object 
+}
+string = { "\"" ~ (ASCII_ALPHA | "." | "_")* ~ "\"" }
+number = @{ ASCII_DIGIT+ }
+boolean = { "true" | "false" }
+null = { "null" }
+array = { "[" ~ (value ~ ("," ~ value)*)? ~ "]" }
+object = { "{" ~ (string ~ ":" ~ value ~ ("," ~ string ~ ":" ~ value)*)? ~ "}" }
