@@ -1,0 +1,12 @@
+[toolchain]
+channel = "stable-x86_64-unknown-linux-gnu"
+components = [
+  "cargo",
+  "llvm-tools",
+  "rust-src",
+  "rust-std",
+  "rustc",
+  "rustc-dev",
+  "rustfmt",
+]
+profile = "minimal"

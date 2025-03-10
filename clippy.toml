@@ -1,0 +1,2 @@
+disallowed-methods = ["std::cell::RefCell::default()", "std::rc::Rc::default()"]
+disallowed-names = ["e"]

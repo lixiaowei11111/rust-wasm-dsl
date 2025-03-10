@@ -1,10 +1,35 @@
-// parser.pest
-value = { 
-  string | number | boolean | null | array | object 
+// 主规则
+rule = { condition ~ "=>" ~ action }
+
+// 条件表达式
+condition = { or_expr }
+or_expr = { and_expr ~ ("||" ~ and_expr)* }
+and_expr = { primary_expr ~ ("&&" ~ primary_expr)* }
+primary_expr = { comparison | "(" ~ condition ~ ")" }
+
+// 比较表达式
+comparison = { field_ref ~ operator ~ value }
+
+// 字段引用格式定义
+field_ref = @{ "field_" ~ ASCII_DIGIT+ }
+
+// 根据类型划分操作符
+operator = { 
+    equality_op |    // 所有类型可用
+    numeric_op       // 仅数字类型可用
 }
-string = { "\"" ~ (ASCII_ALPHA | "." | "_")* ~ "\"" }
-number = @{ ASCII_DIGIT+ }
+
+equality_op = { "==" | "!=" }
+numeric_op = { ">=" | "<=" | ">" | "<" }
+
+// 值类型区分
+value = { number | string | boolean }
+number = @{ "-"? ~ ASCII_DIGIT+ ~ ("." ~ ASCII_DIGIT+)? }
+string = @{ "\"" ~ (!"\"" ~ ANY)* ~ "\"" }
 boolean = { "true" | "false" }
-null = { "null" }
-array = { "[" ~ (value ~ ("," ~ value)*)? ~ "]" }
-object = { "{" ~ (string ~ ":" ~ value ~ ("," ~ string ~ ":" ~ value)*)? ~ "}" }
+
+// 动作定义
+action = { field_action ~ (";" ~ field_action)* }
+field_action = { field_ref ~ action_type ~ action_value? }
+action_type = { "show" | "hide" | "set" }
+action_value = { value }
